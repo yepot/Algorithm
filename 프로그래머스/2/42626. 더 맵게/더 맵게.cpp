@@ -7,26 +7,22 @@ using namespace std;
 int solution(vector<int> scoville, int K) {
     int answer = 0;
     
-    int size = scoville.size();
     priority_queue<int, vector<int>, greater<int>> pq;
-    
-    for(auto i : scoville) {
-        pq.push(i);
+    for(int i=0; i<scoville.size(); i++) {
+        pq.push(scoville[i]);
     }
     
     while(pq.top() < K) {
-        
-        if(answer >= size) return -1;
-        if(pq.size() < 2) return -1;
-        
-        answer++;
-        
-        int a = pq.top();
+        if(answer > scoville.size() || pq.size() < 2) {
+            answer = -1;
+            break;
+        }
+        int tmp = pq.top();
         pq.pop();
-        int b = pq.top();
+        pq.push(tmp + pq.top() * 2);
         pq.pop();
+        answer ++;
         
-        pq.push(a+b*2);
     }
     
     return answer;
