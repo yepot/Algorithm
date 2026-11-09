@@ -1,39 +1,26 @@
 #include <string>
 #include <vector>
-#include <unordered_map>
 #include <sstream>
+#include <unordered_map>
 
 using namespace std;
 
 vector<string> solution(vector<string> record) {
     vector<string> answer;
-    
     unordered_map<string, string> m;
+    vector<pair<string, string>> v;
     
-    for(auto s : record) {
-        stringstream ss(s);
+    for(int i=0; i<record.size(); i++) {
         string act, uid, name;
-        
+        stringstream ss(record[i]);
         ss >> act >> uid >> name;
-        
-        if(act != "Leave") {
-            m[uid] = name;
-        }
+        if(act != "Leave") m[uid] = name;
+        v.push_back({act, uid});
     }
     
-    for(auto s : record) {
-        stringstream ss(s);
-        string act, uid, name;
-        
-        ss >> act >> uid >> name;
-        
-        if(act == "Enter") {
-            answer.push_back(m[uid]+"님이 들어왔습니다.");
-        }
-        
-        else if(act == "Leave") {
-            answer.push_back(m[uid]+"님이 나갔습니다.");
-        }
+    for(int i=0; i<v.size(); i++) {
+        if(v[i].first == "Enter") answer.push_back(m[v[i].second]+"님이 들어왔습니다.");
+        else if(v[i].first == "Leave") answer.push_back(m[v[i].second]+"님이 나갔습니다.");                                 
     }
     
     return answer;
